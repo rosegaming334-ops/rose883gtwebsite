@@ -3,6 +3,8 @@ const revealItems = document.querySelectorAll("[data-reveal]");
 const orbitPanel = document.querySelector(".logo-orbit");
 const cursorGlow = document.querySelector(".cursor-glow");
 const siteHeader = document.querySelector(".site-header");
+const wordmarkStage = document.querySelector(".wordmark-stage");
+const wordmarkImage = document.querySelector(".wordmark-image");
 
 engineCards.forEach((card) => {
   const activate = () => {
@@ -84,3 +86,39 @@ const updateScrollEffects = () => {
 
 updateScrollEffects();
 window.addEventListener("scroll", updateScrollEffects, { passive: true });
+
+if (wordmarkStage && wordmarkImage) {
+  let direction = 1;
+  let offset = 0;
+  let lastTime = 0;
+
+  const moveWordmark = (time) => {
+    if (!lastTime) {
+      lastTime = time;
+    }
+
+    const delta = time - lastTime;
+    lastTime = time;
+
+    const stageWidth = wordmarkStage.clientWidth;
+    const imageWidth = wordmarkImage.clientWidth;
+    const maxOffset = Math.max(stageWidth - imageWidth - 24, 24);
+
+    offset += direction * delta * 0.03;
+
+    if (offset >= maxOffset) {
+      offset = maxOffset;
+      direction = -1;
+    } else if (offset <= 24) {
+      offset = 24;
+      direction = 1;
+    }
+
+    wordmarkImage.style.transform = `translateX(${offset}px)`;
+    window.requestAnimationFrame(moveWordmark);
+  };
+
+  offset = 24;
+  wordmarkImage.style.transform = `translateX(${offset}px)`;
+  window.requestAnimationFrame(moveWordmark);
+}

@@ -129,6 +129,56 @@ main {
   z-index: 1;
 }
 
+.wordmark-marquee {
+  position: relative;
+  z-index: 1;
+  margin-top: 26px;
+  overflow: hidden;
+  border-radius: 28px;
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(10, 8, 21, 0.92), rgba(16, 13, 31, 0.92));
+  box-shadow: var(--shadow);
+}
+
+.wordmark-marquee::before,
+.wordmark-marquee::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 84px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.wordmark-marquee::before {
+  left: 0;
+  background: linear-gradient(90deg, rgba(10, 8, 21, 1), transparent);
+}
+
+.wordmark-marquee::after {
+  right: 0;
+  background: linear-gradient(270deg, rgba(10, 8, 21, 1), transparent);
+}
+
+.wordmark-stage {
+  position: relative;
+  min-height: 190px;
+  display: flex;
+  align-items: center;
+  padding: 20px 0;
+}
+
+.wordmark-image {
+  position: absolute;
+  left: 0;
+  width: clamp(260px, 42vw, 560px);
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 20px 34px rgba(122, 124, 255, 0.2));
+  will-change: transform;
+}
+
 .site-header {
   display: flex;
   align-items: center;
@@ -320,6 +370,7 @@ main {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--line);
   box-shadow: var(--shadow);
+  animation: pulse-panel 4.5s ease-in-out infinite;
 }
 
 .hero-url strong {
@@ -438,6 +489,7 @@ main {
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow);
+  transition: transform 240ms ease, border-color 240ms ease, box-shadow 240ms ease;
 }
 
 .signal-card::after,
@@ -472,6 +524,13 @@ main {
   margin: 12px 0 0;
   color: var(--muted);
   line-height: 1.6;
+}
+
+.signal-card:hover,
+.signal-card:focus-within {
+  transform: translateY(-8px) rotate(-0.4deg);
+  border-color: rgba(111, 246, 255, 0.45);
+  box-shadow: 0 34px 72px rgba(2, 4, 14, 0.54);
 }
 
 .signal-grid {
@@ -811,6 +870,19 @@ body.has-pointer-down .cursor-glow {
   }
 }
 
+@keyframes pulse-panel {
+  0%,
+  100% {
+    transform: translateY(0);
+    box-shadow: var(--shadow);
+  }
+
+  50% {
+    transform: translateY(-4px);
+    box-shadow: 0 34px 76px rgba(2, 4, 14, 0.5);
+  }
+}
+
 @keyframes spin-slow {
   from {
     transform: rotate(0deg);
@@ -919,6 +991,16 @@ body.has-pointer-down .cursor-glow {
 
   .signal-grid {
     grid-template-columns: 1fr;
+  }
+
+  .wordmark-stage {
+    min-height: 128px;
+    padding: 16px 0;
+  }
+
+  .wordmark-marquee::before,
+  .wordmark-marquee::after {
+    width: 40px;
   }
 
   .logo-orbit {
